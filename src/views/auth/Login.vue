@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { mapActions } from "vuex";
 export default {
   name: "Login",
   data() {
@@ -45,17 +45,17 @@ export default {
     };
   },
   methods: {
+    ...mapActions({
+      login: "user/loginUser"
+    }),
     loginUser() {
       if (this.$refs.loginForm.validate()) {
-        axios
-          .post("http://localhost:8000/api/login", this.user)
-          .then(res => {
-            localStorage.setItem("token", res.data);
-            this.$router.push("/dashboard");
-            console.log(res.data);
+        this.login(this.user)
+          .then(() => {
+            this.$router.push({ name: "dashboard" });
           })
-          .catch(error => {
-            console.log(error);
+          .catch(e => {
+            console.log(e);
           });
       }
     }
