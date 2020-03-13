@@ -21,9 +21,14 @@ const actions = {
       axios
         .post('http://localhost:8000/api/login', payload)
         .then((res) => {
-          localStorage.setItem('token', res.data)
-          ctx.commit('setLoggedIn', true)
-          resolve(res)
+          console.log(res)
+          if (res.data.access_token) {
+            localStorage.setItem('token', res.data)
+            ctx.commit('setLoggedIn', true)
+            resolve(res)
+          } else {
+            reject(res)
+          }
           //   this.$router.push('/dashboard')
         })
         .catch((error) => {
@@ -38,12 +43,7 @@ const actions = {
       resolve(true)
     })
   },
-  // setTokenStatus(ctx) {
-  //   return new Promise((resolve) => {
-  //     if (localStorage.getItem('token')) ctx.commit('setLoggedIn', true)
-  //     resolve(true)
-  //   })
-  // },
+
   setLoggedInState(ctx) {
     return new Promise((resolve) => {
       if (localStorage.getItem('token')) {
@@ -53,6 +53,30 @@ const actions = {
         ctx.commit('setLoggedIn', false)
         resolve(false)
       }
+    })
+  },
+  forgotPassword(ctx, payload) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post('http://localhost:8000/api/forgot-password', payload)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  },
+  resetPassword(ctx, payload) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post('http://localhost:8000/api/reset-password', payload)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject(error)
+        })
     })
   }
 }

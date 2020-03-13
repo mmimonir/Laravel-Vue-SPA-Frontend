@@ -27,6 +27,22 @@ const routes = [
     meta: { middlewares: [Middlewares.guest] }
   },
   {
+    path: '/forgot-password',
+    name: 'forgotPassword',
+    component: () =>
+      import(
+        /* webpackChunkName: "about" */ '../views/auth/ForgotPassword.vue'
+      ),
+    meta: { middlewares: [Middlewares.guest] }
+  },
+  {
+    path: '/reset-password',
+    name: 'resetPassword',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/auth/ResetPassword.vue'),
+    meta: { middlewares: [Middlewares.guest] }
+  },
+  {
     path: '/dashboard',
     name: 'dashboard',
     component: () =>
